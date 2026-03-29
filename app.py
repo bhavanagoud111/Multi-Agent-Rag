@@ -13,7 +13,7 @@ import time
 import builtins
 
 thread = {"configurable": {"thread_id": new_uuid()}}
-#This is a question related to environmental context. tell me the data center PUE efficiency value in Dublin in 2021
+# Example: ask a question answerable from your indexed PDF (see config.yaml document + retriever.file).
 
 async def process_query(query):
     inputState = InputState(messages=query)

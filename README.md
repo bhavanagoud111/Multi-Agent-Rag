@@ -12,7 +12,7 @@ This project is aimed at teams and developers who want a **concrete pattern** fo
 - **Breaking complex questions into steps** (plan → retrieve per step → aggregate → answer) rather than a single retrieval call.
 - **Improving reliability** with structured routing, ensemble retrieval, reranking, and an explicit **groundedness / hallucination** gate before accepting the final answer.
 
-The sample corpus is Google’s **[2024 environmental report](https://sustainability.google/reports/google-2024-environmental-report/)** (PDF path configured in `config.yaml`). You can swap that file and tuning parameters for your own documents once you understand the pipeline.
+Point **`retriever.file`** at **any PDF** you want (annual report, policy, handbook, spec, etc.), and set **`document.title`** / **`document.scope`** in `config.yaml` so the router and answers match your use case.
 
 ---
 
@@ -22,10 +22,10 @@ The sample corpus is Google’s **[2024 environmental report](https://sustainabi
 
 1. **User input** enters the main LangGraph (`main_graph/graph_builder.py`) with conversation state (`AgentState` in `main_graph/graph_states.py`).
 2. **Router** (`analyze_and_route_query`) classifies the message into one of three kinds:
-   - **`environmental`** — treat as a research question over the indexed report; continue down the RAG path.
+   - **`document`** — in scope for the indexed PDF; continue down the RAG path.
    - **`more-info`** — the model needs clarification; **`ask_for_more_info`** responds without retrieval.
-   - **`general`** — off-topic or general chat; **`respond_to_general_query`** answers without using the document store.
-3. **Research path** (for `environmental`):
+   - **`general`** — off-topic or not answerable from the index; **`respond_to_general_query`** declines without using the vector store.
+3. **Research path** (for `document`):
    - **`create_research_plan`** produces an ordered list of research steps (structured output).
    - **`conduct_research`** runs **one step at a time**: for each step it invokes the **researcher subgraph** (`subgraph/graph_builder.py`).
 4. **Researcher subgraph** (per step):
@@ -82,14 +82,21 @@ The repository’s `requirements.txt` may not list every transitive dependency; 
 
 ## Configuration (`config.yaml`)
 
-Key fields under `retriever`:
+**Document persona (any PDF/report use case)**
 
 | Key | Role |
 |-----|------|
-| `file` | Path to the PDF to index (e.g. `retriever/google-2024-environmental-report.pdf`). |
+| `document.title` | Short label for prompts (e.g. “Q3 2024 earnings”, “Employee handbook”). |
+| `document.scope` | What counts as “in scope” for the **`document`** route (answerable from your PDF). |
+
+**Retriever / index**
+
+| Key | Role |
+|-----|------|
+| `file` | Path to the PDF to index (default placeholder: `retriever/your-document.pdf`). |
 | `load_documents` | **`true`** to convert/split/embed the PDF into Chroma; required for first-time indexing. |
-| `headers_to_split_on` | Markdown header levels used when splitting (e.g. `#`, `##`). |
-| `collection_name` | Chroma collection name. |
+| `headers_to_split_on` | Markdown header levels used when splitting (e.g. `#`, `##`). Tune if your PDF structure differs. |
+| `collection_name` | Chroma collection name (change if you switch corpora). |
 | `directory` | Folder for persisted Chroma data (default `vector_db`). |
 | `top_k` / `top_k_compression` | Retrieval and post-rerank depth. |
 | `ensemble_weights` | Weights for similarity, MMR, and BM25 in the ensemble. |
@@ -132,9 +139,10 @@ COHERE_API_KEY=...
 
 ### 5. Index the document
 
-1. Open **`config.yaml`** and set **`load_documents: true`**.
-2. Ensure the PDF path in `retriever.file` exists (place the report under `retriever/` or update the path).
-3. Run:
+1. Copy your PDF into the project (e.g. `retriever/my-report.pdf`) and set **`retriever.file`** to that path.
+2. Edit **`document.title`** and **`document.scope`** so the assistant matches your content (e.g. finance vs HR vs technical spec).
+3. Open **`config.yaml`** and set **`load_documents: true`**.
+4. Run:
 
 ```bash
 python3 -m retriever.retriever
@@ -142,7 +150,7 @@ python3 -m retriever.retriever
 
 Wait until indexing completes and Chroma data appears under `vector_db/` (or your configured `directory`).
 
-4. For normal Q&A runs you can set **`load_documents: false`** to skip re-ingestion on every indexer run (the vector store on disk is still used by the app). **First-time indexing must use `load_documents: true`.**
+5. For normal Q&A runs you can set **`load_documents: false`** to skip re-ingestion on every indexer run (the vector store on disk is still used by the app). **First-time indexing must use `load_documents: true`.**
 
 ### 6. Run the chat application
 
@@ -154,7 +162,7 @@ python3 app.py
 - Type **`-q`** to quit.
 - If the hallucination step triggers and you choose to retry, follow the on-screen prompt (**`y`** to regenerate when asked).
 
-Example topic area (with the default PDF): metrics and narratives from **[Google’s 2024 environmental report](https://sustainability.google/reports/google-2024-environmental-report/)**.
+Ask questions that the indexed PDF can support (figures, policies, narrative sections, tables).
 
 ---
 

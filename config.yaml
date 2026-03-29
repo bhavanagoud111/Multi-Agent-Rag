@@ -1,14 +1,20 @@
+# Describe what you indexed — used in router and answer prompts (any report/PDF use case).
+document:
+  title: "Sample annual report"
+  scope: "information that appears in the uploaded PDF you indexed (e.g. annual report, policy, handbook, or technical document)."
+
 retriever:
-  file: "retriever/google-2024-environmental-report.pdf"
+  # Place any PDF here and set this path (relative to project root is fine).
+  file: "retriever/your-document.pdf"
   headers_to_split_on:
     - ["#", "Header 1"]
     - ["##", "Header 2"]
-  load_documents: False
-  collection_name: rag-chroma-google
+  load_documents: false
+  collection_name: rag-chroma-documents
   directory: vector_db
   top_k: 3
   top_k_compression: 3
-  ensemble_weights: [0.3, 0.3, 0.4] 
+  ensemble_weights: [0.3, 0.3, 0.4]
   cohere_rerank_model: rerank-english-v3.0
 llm:
   gpt_4o_mini: gpt-4o-mini-2024-07-18

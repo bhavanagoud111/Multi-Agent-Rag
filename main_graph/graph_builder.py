@@ -82,7 +82,7 @@ def route_query(
         ValueError: If an unknown router type is encountered.
     """
     _type = state.router["type"]
-    if _type == "environmental":
+    if _type == "document":
         return "create_research_plan"
     elif _type == "more-info":
         return "ask_for_more_info"
@@ -96,7 +96,7 @@ def route_query(
 async def create_research_plan(
     state: AgentState, *, config: RunnableConfig
 ) -> dict[str, list[str] | str]:
-    """Create a step-by-step research plan for answering a environmental-related query.
+    """Create a step-by-step research plan for answering a document-grounded query.
 
     Args:
         state (AgentState): The current state of the agent, including conversation history.
@@ -190,7 +190,7 @@ def check_finished(state: AgentState) -> Literal["respond", "conduct_research"]:
 async def respond_to_general_query(
     state: AgentState, *, config: RunnableConfig
 ) -> dict[str, list[BaseMessage]]:
-    """Generate a response to a general query not related to environmental.
+    """Generate a response to a general query not grounded in the indexed document.
 
     This node is called when the router classifies the query as a general question.
 

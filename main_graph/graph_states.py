@@ -56,7 +56,7 @@ class Router(TypedDict):
     """Classify user query."""
 
     logic: str
-    type: Literal["more-info", "environmental", "general"]
+    type: Literal["more-info", "document", "general"]
 
 
 class GradeHallucinations(BaseModel):
