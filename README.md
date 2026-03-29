@@ -176,9 +176,3 @@ Ask questions that the indexed PDF can support (figures, policies, narrative sec
 | `retriever/` | PDF → Markdown → chunks → Chroma + BM25 setup for indexing. |
 | `utils/` | Shared config load, prompts, document merge helpers. |
 | `config.yaml` | Models, paths, retrieval hyperparameters. |
-
----
-
-## License and credits
-
-Original project by **Nicola Disabato** — see the upstream repository: [nicoladisabato/MultiAgenticRAG](https://github.com/nicoladisabato/MultiAgenticRAG).
