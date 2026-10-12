@@ -78,7 +78,7 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-The repository’s `requirements.txt` may not list every transitive dependency; if imports fail at runtime, install the missing packages (for example `langgraph`, `docling`, `langchain-text-splitters`, `python-dotenv`, `pyyaml`, `pydantic`) until the app starts cleanly.
+`requirements.txt` keeps LangChain on the 0.3.x line: LangChain 1.x removed `langchain.retrievers`, which this project uses for the ensemble, BM25, and contextual-compression retrievers.
 
 ---
 
