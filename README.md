@@ -132,7 +132,7 @@ pip install -r requirements.txt
 
 ### 4. Configure secrets
 
-Create a `.env` file in the project root (or export variables in your shell):
+Copy `.env.example` to `.env` in the project root and fill in your keys (or export the variables in your shell):
 
 ```env
 OPENAI_API_KEY=sk-...
@@ -141,7 +141,7 @@ COHERE_API_KEY=...
 
 ### 5. Index the document
 
-1. Copy your PDF into the project (e.g. `retriever/my-report.pdf`) and set **`retriever.file`** to that path.
+1. The default config indexes the bundled sample, `retriever/google-2024-environmental-report.pdf`. To use your own PDF, copy it into the project (e.g. `retriever/my-report.pdf`) and set **`retriever.file`** to that path.
 2. Edit **`document.title`** and **`document.scope`** so the assistant matches your content (e.g. finance vs HR vs technical spec).
 3. Open **`config.yaml`** and set **`load_documents: true`**.
 4. Run:
