@@ -113,8 +113,8 @@ Under `llm`, model names and `temperature` are set for routing, planning, and an
 ### 1. Clone and enter the project
 
 ```bash
-git clone https://github.com/nicoladisabato/MultiAgenticRAG.git
-cd MultiAgenticRAG
+git clone https://github.com/bhavanagoud111/Multi-Agent-Rag.git
+cd Multi-Agent-Rag
 ```
 
 ### 2. Create a virtual environment (recommended)
