@@ -1,11 +1,12 @@
 # Describe what you indexed — used in router and answer prompts (any report/PDF use case).
 document:
-  title: "Sample annual report"
+  title: "Google 2024 Environmental Report"
   scope: "information that appears in the uploaded PDF you indexed (e.g. annual report, policy, handbook, or technical document)."
 
 retriever:
-  # Place any PDF here and set this path (relative to project root is fine).
-  file: "retriever/your-document.pdf"
+  # Path to the PDF to index (relative to project root is fine). The repo ships
+  # this sample report; replace it with any PDF and update `document` above.
+  file: "retriever/google-2024-environmental-report.pdf"
   headers_to_split_on:
     - ["#", "Header 1"]
     - ["##", "Header 2"]

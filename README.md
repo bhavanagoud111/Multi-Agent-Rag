@@ -1,5 +1,7 @@
 # MultiAgentic RAG
 
+Team project built by Nicola Disabato ([@nicoladisabato](https://github.com/nicoladisabato)) and Bhavana Ediga ([@bhavanagoud111](https://github.com/bhavanagoud111)).
+
 A **multi-agent research RAG (retrieval-augmented generation)** demo built with **[LangGraph](https://github.com/langchain-ai/langgraph)**. The system routes user questions, plans multi-step research over an indexed document, retrieves evidence with hybrid search and reranking, synthesizes answers, and runs a **hallucination check** with optional human-in-the-loop retry.
 
 ---
@@ -76,7 +78,7 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-The repository’s `requirements.txt` may not list every transitive dependency; if imports fail at runtime, install the missing packages (for example `langgraph`, `docling`, `langchain-text-splitters`, `python-dotenv`, `pyyaml`, `pydantic`) until the app starts cleanly.
+`requirements.txt` keeps LangChain on the 0.3.x line: LangChain 1.x removed `langchain.retrievers`, which this project uses for the ensemble, BM25, and contextual-compression retrievers.
 
 ---
 
@@ -93,7 +95,7 @@ The repository’s `requirements.txt` may not list every transitive dependency; 
 
 | Key | Role |
 |-----|------|
-| `file` | Path to the PDF to index (default placeholder: `retriever/your-document.pdf`). |
+| `file` | Path to the PDF to index (default: the bundled sample `retriever/google-2024-environmental-report.pdf`). |
 | `load_documents` | **`true`** to convert/split/embed the PDF into Chroma; required for first-time indexing. |
 | `headers_to_split_on` | Markdown header levels used when splitting (e.g. `#`, `##`). Tune if your PDF structure differs. |
 | `collection_name` | Chroma collection name (change if you switch corpora). |
@@ -111,8 +113,8 @@ Under `llm`, model names and `temperature` are set for routing, planning, and an
 ### 1. Clone and enter the project
 
 ```bash
-git clone https://github.com/nicoladisabato/MultiAgenticRAG.git
-cd MultiAgenticRAG
+git clone https://github.com/bhavanagoud111/Multi-Agent-Rag.git
+cd Multi-Agent-Rag
 ```
 
 ### 2. Create a virtual environment (recommended)
@@ -130,7 +132,7 @@ pip install -r requirements.txt
 
 ### 4. Configure secrets
 
-Create a `.env` file in the project root (or export variables in your shell):
+Copy `.env.example` to `.env` in the project root and fill in your keys (or export the variables in your shell):
 
 ```env
 OPENAI_API_KEY=sk-...
@@ -139,7 +141,7 @@ COHERE_API_KEY=...
 
 ### 5. Index the document
 
-1. Copy your PDF into the project (e.g. `retriever/my-report.pdf`) and set **`retriever.file`** to that path.
+1. The default config indexes the bundled sample, `retriever/google-2024-environmental-report.pdf`. To use your own PDF, copy it into the project (e.g. `retriever/my-report.pdf`) and set **`retriever.file`** to that path.
 2. Edit **`document.title`** and **`document.scope`** so the assistant matches your content (e.g. finance vs HR vs technical spec).
 3. Open **`config.yaml`** and set **`load_documents: true`**.
 4. Run:
@@ -176,3 +178,10 @@ Ask questions that the indexed PDF can support (figures, policies, narrative sec
 | `retriever/` | PDF → Markdown → chunks → Chroma + BM25 setup for indexing. |
 | `utils/` | Shared config load, prompts, document merge helpers. |
 | `config.yaml` | Models, paths, retrieval hyperparameters. |
+
+---
+
+## Team
+
+- **Nicola Disabato** ([@nicoladisabato](https://github.com/nicoladisabato))
+- **Bhavana Ediga** ([@bhavanagoud111](https://github.com/bhavanagoud111)): generalized the pipeline from a single report to any PDF (configurable `document.title` / `document.scope`, a generic `document` route in the router, and prompts driven by that config) and expanded this README with architecture, setup, and usage documentation.

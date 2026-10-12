@@ -1,9 +1,17 @@
+# LangChain 1.x removed `langchain.retrievers` (EnsembleRetriever, BM25Retriever,
+# ContextualCompressionRetriever), which this project imports, so stay on 0.3.x.
+langchain>=0.3,<1
+langchain-core>=0.3,<1
+langchain-community>=0.3,<0.4
+langchain-openai>=0.3,<1
+langchain-cohere>=0.4,<0.5
+langchain-text-splitters>=0.3,<1
+langgraph>=0.3,<1
+
+chromadb
 rank_bm25
 rank-llm==0.12.8
-chromadb
-langchain
-langchain-core
-langchain-community
-langchain-openai
-chromadb 
-langchain_cohere
+docling
+pydantic>=2,<3
+python-dotenv
+pyyaml
