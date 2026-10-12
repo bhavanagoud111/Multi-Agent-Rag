@@ -114,6 +114,7 @@ if __name__ == "__main__":
     filepath = config["retriever"]["file"]
     collection_name = config["retriever"]["collection_name"]
     load_documents = config["retriever"]["load_documents"]
+    persist_directory = config["retriever"].get("directory", "vector_db")
 
     print("Retriever entry")
     if not load_documents:
@@ -135,7 +136,7 @@ if __name__ == "__main__":
 
     # Index Building
     logger.info("Initializing index builder.")
-    index_builder = IndexBuilder(docs_list, collection_name, persist_directory="vector_db", load_documents=load_documents)
+    index_builder = IndexBuilder(docs_list, collection_name, persist_directory=persist_directory, load_documents=load_documents)
     index_builder.build_vectorstore()
 
     try:
