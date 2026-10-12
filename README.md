@@ -95,7 +95,7 @@ pip install -r requirements.txt
 
 | Key | Role |
 |-----|------|
-| `file` | Path to the PDF to index (default placeholder: `retriever/your-document.pdf`). |
+| `file` | Path to the PDF to index (default: the bundled sample `retriever/google-2024-environmental-report.pdf`). |
 | `load_documents` | **`true`** to convert/split/embed the PDF into Chroma; required for first-time indexing. |
 | `headers_to_split_on` | Markdown header levels used when splitting (e.g. `#`, `##`). Tune if your PDF structure differs. |
 | `collection_name` | Chroma collection name (change if you switch corpora). |
