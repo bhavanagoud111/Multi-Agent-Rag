@@ -111,6 +111,13 @@ def _build_retrievers(documents: list[Document], vectorstore: Chroma) -> Context
 vectorstore = _setup_vectorstore()
 documents = _load_documents(vectorstore)
 
+if not documents:
+    raise RuntimeError(
+        f"The vector store at '{VECTORSTORE_DIRECTORY}' (collection '{VECTORSTORE_COLLECTION}') is empty. "
+        "Build the index first: set retriever.load_documents to true in config.yaml "
+        "and run `python3 -m retriever.retriever`."
+    )
+
 # Build the compression retriever (with Cohere inside)
 compression_retriever = _build_retrievers(documents, vectorstore)
 
