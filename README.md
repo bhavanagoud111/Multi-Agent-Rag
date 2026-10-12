@@ -1,5 +1,7 @@
 # MultiAgentic RAG
 
+Team project built by Nicola Disabato ([@nicoladisabato](https://github.com/nicoladisabato)) and Bhavana Ediga ([@bhavanagoud111](https://github.com/bhavanagoud111)).
+
 A **multi-agent research RAG (retrieval-augmented generation)** demo built with **[LangGraph](https://github.com/langchain-ai/langgraph)**. The system routes user questions, plans multi-step research over an indexed document, retrieves evidence with hybrid search and reranking, synthesizes answers, and runs a **hallucination check** with optional human-in-the-loop retry.
 
 ---
@@ -176,3 +178,10 @@ Ask questions that the indexed PDF can support (figures, policies, narrative sec
 | `retriever/` | PDF → Markdown → chunks → Chroma + BM25 setup for indexing. |
 | `utils/` | Shared config load, prompts, document merge helpers. |
 | `config.yaml` | Models, paths, retrieval hyperparameters. |
+
+---
+
+## Team
+
+- **Nicola Disabato** ([@nicoladisabato](https://github.com/nicoladisabato))
+- **Bhavana Ediga** ([@bhavanagoud111](https://github.com/bhavanagoud111)): generalized the pipeline from a single report to any PDF (configurable `document.title` / `document.scope`, a generic `document` route in the router, and prompts driven by that config) and expanded this README with architecture, setup, and usage documentation.
