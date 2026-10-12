@@ -116,16 +116,22 @@ if __name__ == "__main__":
     load_documents = config["retriever"]["load_documents"]
 
     print("Retriever entry")
-    if load_documents:
-        # Document Processing
-        logger.info("Initializing document processor.")
-        processor = DocumentProcessor(headers_to_split_on)  # Replace with actual source
-        try:        
-            docs_list = processor.process(filepath)    
-            logger.info(f"{len(docs_list)} chunks generated.") 
-        except RuntimeError as e:        
-            logger.info(f"Failed to process document: {e}")        
-            exit(1)
+    if not load_documents:
+        logger.info(
+            "load_documents is false in config.yaml, so there is nothing to index. "
+            "Set retriever.load_documents to true to (re)build the vector store."
+        )
+        exit(0)
+
+    # Document Processing
+    logger.info("Initializing document processor.")
+    processor = DocumentProcessor(headers_to_split_on)
+    try:
+        docs_list = processor.process(filepath)
+        logger.info(f"{len(docs_list)} chunks generated.")
+    except RuntimeError as e:
+        logger.info(f"Failed to process document: {e}")
+        exit(1)
 
     # Index Building
     logger.info("Initializing index builder.")
